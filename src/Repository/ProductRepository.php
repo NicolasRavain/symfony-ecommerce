@@ -19,15 +19,36 @@ class ProductRepository extends ServiceEntityRepository
         parent::__construct($registry, Product::class);
     }
 
-    public function findOnePublishedOrderedByNewest()
+    public function findPublishedOrderedByNewest()
     {
-        return $this->addIsPublishedQueryBuilder()
-            ->orderBy('p.publishedAt', 'DESC')
-            ->getQuery()
-            ->setMaxResult(4)
-            ->getResult()
-        ;
+        $queryBuilder = $this->createQueryBuilder('p')
+            ->orderBy('p.date', 'DESC')
+            ->setMaxResults(4)
+            ->getQuery();
+
+        return $queryBuilder->getResult();
+        
     }
+
+    public function findOneByFavorite()
+    {
+        $queryBuilder = $this->createQueryBuilder('p')
+            ->where('p.favorite = true')
+            ->getQuery();
+        
+        return $queryBuilder->setMaxResults(1)->getOneOrNullResult();
+
+    }
+
+    public function findOneByDate()
+    {
+        $queryBuilder = $this->createQueryBuilder('p')
+            ->orderBy('p.date', 'DESC')
+            ->getQuery();
+
+        return $queryBuilder->setMaxResults(1)->getOneOrNullResult();
+    }
+
 
     // /**
     //  * @return Product[] Returns an array of Product objects

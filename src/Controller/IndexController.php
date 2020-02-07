@@ -2,18 +2,24 @@
 
 namespace App\Controller;
 
+use App\Repository\ProductRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
+
 
 class IndexController extends AbstractController
 {
   /**
    * @Route("/", name="home")
    */
-  public function home()
+  public function home(ProductRepository $productRepository)
   {
+    $products = $productRepository->findPublishedOrderedByNewest();
+    $favoriteProduct = $productRepository-> findOneByFavorite();
+    
     return $this->render('index/home.html.twig', [
-      'controller_name' => 'IndexController',
+      'products' => $products,
+      'favorite_product' =>$favoriteProduct,
     ]);
   }
 
