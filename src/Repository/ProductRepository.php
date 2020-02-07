@@ -19,6 +19,16 @@ class ProductRepository extends ServiceEntityRepository
         parent::__construct($registry, Product::class);
     }
 
+    public function findOnePublishedOrderedByNewest()
+    {
+        return $this->addIsPublishedQueryBuilder()
+            ->orderBy('p.publishedAt', 'DESC')
+            ->getQuery()
+            ->setMaxResult(4)
+            ->getResult()
+        ;
+    }
+
     // /**
     //  * @return Product[] Returns an array of Product objects
     //  */

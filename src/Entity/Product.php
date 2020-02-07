@@ -49,7 +49,7 @@ class Product
     /**
      * @ORM\Column(type="array")
      */
-    private $color = [];
+    private $color = ['bleu', 'rouge', 'vert'];
 
     public function getId(): ?int
     {
